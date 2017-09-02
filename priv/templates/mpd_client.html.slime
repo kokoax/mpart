@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    meta name="keywords" description="Slime"
+    meta charset="UTF-8"
+    link rel="stylesheet" type="text/css" href="priv/static/css/style.css"
+    title = site_title
+  body
+    #id.class
+      ul
+        = Enum.map ls_data, fn item ->
+          li = item.data
+
