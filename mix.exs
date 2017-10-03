@@ -24,7 +24,8 @@ defmodule MpdClient.Mixfile do
   defp deps do
     [
       {:cowboy, "~> 1.1"},
-      {:slime, "~> 1.0"}
+      {:slime, "~> 1.0"},
+      {:httpoison, "~> 0.13"},
     ]
   end
 end
