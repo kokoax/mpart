@@ -59,19 +59,19 @@ defmodule MpdClient.Query do
   end
 
   # 以下、MPDコマンド以外の作成したコマンド
-  def album_list(sock) do
-    # album_names = list("album", "/", sock) |> IO.inspect
-    album_names = cmd_do(~s(list album \n), sock) |> Enum.filter(&(&1.type == "Album"))
-    all_directory = cmd_do(~s(listall \n), sock) |> Enum.filter(&(&1.type == "directory"))
 
-    album_names
-    |> Enum.map(fn(album) ->
-      all_directory
-      |> Enum.filter(fn(dir) ->
-        dir.data =~ album.data and dir.data =~ "/"
-      end)
+  # 音楽ファイルの入っているディレクトリは全てアルバムであると仮定して
+  # 全ての音楽ファイルのPathを抽出して、そのディレクトリ名をmap
+  # それをuniqすれば、アルバム名が取り出せる算段
+  def album_list(sock) do
+    cmd_do(~s(listall \n), sock)
+    |> Enum.filter(&(&1.type == "file"))
+    |> Enum.map(fn(minfo) ->
+      MpdClient.MpdData.new(
+        "directory",
+        minfo.data |> Path.dirname)
     end)
-    |> List.flatten
+    |> Enum.uniq
   end
 
   def list_all_file(sock) do
