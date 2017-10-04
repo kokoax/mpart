@@ -16,11 +16,11 @@ defmodule MpdClient do
           # TODO: 増やせごらぁ
           {"/", :cowboy_static, {:priv_file, :mpd_client, "static/index.html"}},
           {"/priv/static/js/:javascript", MpdClient.Handlers.Javascript, []},
-          {"/priv/static/css/:css", MpdClient.Handlers.Css, []},
-          {"/priv/static/images/:image", MpdClient.Handlers.Image, []},
-          {"/priv/templates/:template", MpdClient.Handlers.Template, []},
-          {"/mpd_client", MpdClient.Handlers.MpdClient, []},
-          # {"/", DynamicPageHandler, []}
+          {"/priv/static/css/:css",       MpdClient.Handlers.Css, []},
+          {"/priv/templates/:template",   MpdClient.Handlers.Template, []},
+          {"/priv/static/images/[...]",   :cowboy_static, {:priv_dir, :mpd_client, "static/images"}},
+          {"/mpd_client",                 MpdClient.Handlers.MpdClient, []},
+          {"/upload",                     MpdClient.Handlers.Upload, []},
         ]
       }
     ]
