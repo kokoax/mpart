@@ -22,14 +22,11 @@ defmodule MpdClient.Query do
 
   def list_all(file_name \\ "/", sock)
   def list_all(file_name, sock) do
-    cmd_do("listall #{file_name}\n", sock)
+    cmd_do(~s(listall "#{file_name}"\n), sock)
   end
 
   def ls(dir_name, sock) do
-    cmd_do(~s(lsinfo #{dir_name} \n), sock)
-    |> Enum.filter(fn(info) ->
-      info |> IO.inspect |> Map.has_key?("directory") or info |> Map.has_key?("file")
-    end)
+    cmd_do(~s(lsinfo "#{dir_name}" \n), sock)
   end
 
   def stats(sock) do
@@ -50,12 +47,12 @@ defmodule MpdClient.Query do
 
   def list(type \\ "any", query, sock)
   def list(type, query, sock) do
-    cmd_do(~s(list #{type} #{query} \n), sock)
+    cmd_do(~s(list "#{type}" "#{query}" \n), sock)
   end
 
   def find(type \\ "any", query, sock)
   def find(type, query, sock) do
-    cmd_do(~s(find #{type} #{query} \n), sock)
+    cmd_do(~s(find "#{type}" "#{query}" \n), sock)
   end
 
   # 以下、MPDコマンド以外の作成したコマンド
@@ -93,6 +90,8 @@ defmodule MpdClient.Query do
     :ok = :gen_tcp.send(sock, cmd)
     :timer.sleep(10)
     {:ok, msg} = :gen_tcp.recv(sock, 0)
+
+    :gen_tcp.close(sock)
 
     Enum.join(for <<c::utf8 <- msg>>, do: <<c::utf8>>)
     |> to_struct
