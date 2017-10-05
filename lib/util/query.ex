@@ -2,14 +2,13 @@ defmodule MpdClient.Query do
   def to_struct(data) do
     Regex.split(~r/\n/, data)
     |> Enum.map(&(Regex.split(~r/:\s/, &1)))
-    # |> Enum.map(&(%{String.to_atom(Enum.at(&1,0)) => Enum.at(&1,1)}))
     |> Enum.map(fn(item) ->
       MpdClient.MpdData.new(
         Enum.at(item, 0),
         Enum.at(item, 1)
       )
     end)
-    |> Enum.filter(&(&1.data != ""))
+    |> Enum.filter(&(&1.data != nil))
   end
 
   def current(sock) do
