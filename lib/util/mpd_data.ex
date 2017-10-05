@@ -6,5 +6,14 @@ defmodule MpdClient.MpdData do
       data: data,
     }
   end
+  def to_json(mpd_data) do
+    mpd_data
+    |> Enum.map(fn(data) ->
+      {data.type, data.data}
+    end)
+    |> Map.new
+    |> IO.inspect
+    |> Poison.encode!
+  end
 end
 
