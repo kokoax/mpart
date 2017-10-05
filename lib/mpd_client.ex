@@ -20,7 +20,7 @@ defmodule MpdClient do
           {"/priv/templates/:template",   MpdClient.Handlers.Template, []},
           {"/priv/static/images/[...]",   :cowboy_static, {:priv_dir, :mpd_client, "static/images"}},
           {"/mpd_client",                 MpdClient.Handlers.MpdClient, []},
-          {"/upload",                     MpdClient.Handlers.Upload, []},
+          {"/api/status",                 MpdClient.Handlers.Status, []},
         ]
       }
     ]
