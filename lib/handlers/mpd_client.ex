@@ -32,6 +32,11 @@ defmodule MpdClient.Handlers.MpdClient do
       albuminfo
       |> Enum.map(fn(info) ->
         info.data |> Path.basename
+        |> String.replace(" ", "_")
+        |> String.replace("!", "_")
+        |> String.replace("?", "_")
+        |> String.replace("[", "_")
+        |> String.replace("]", "_")
       end)
 
     albumsong =
