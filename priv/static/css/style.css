@@ -14,7 +14,6 @@ img.song-img {
 }
 
 div.songs-info {
-  display: none;
   flex-direction: row;
 }
 
