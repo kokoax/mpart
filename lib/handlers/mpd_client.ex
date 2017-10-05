@@ -20,12 +20,29 @@ defmodule MpdClient.Handlers.MpdClient do
     Logger.debug "generate_body from " <> System.cwd! <> "/priv/templates/mpd_client.html.slime"
     # TODO: 例外時どうする？ => なんで例外が起こるの？
     {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpd_client.html.slime")
-    res =
+    albuminfo =
       GenServer.call(:mpd_client_util, {:album_list})
       |> Enum.filter(fn(item) -> item.type == "directory" end)
-      |> IO.inspect
 
-    Slime.render(body, [site_title: "MPD Client test", ls_data: res])
+    albumimg =
+      albuminfo
+      |> Enum.map(fn(_info) -> "/priv/static/images/cat.png" end)
+
+    albumname =
+      albuminfo
+      |> Enum.map(fn(info) ->
+        info.data |> Path.basename
+      end)
+
+    albumsong =
+      albuminfo
+      |> Enum.map(fn(info) ->
+        GenServer.call(:mpd_client_util, {:ls, info.data})
+        |> Enum.filter(&(&1.type == "Title"))
+        |> Enum.map(&(&1.data))
+      end)
+
+    Slime.render(body, [site_title: "MPD Client test", albumname: albumname, albumimg: albumimg, albumsong: albumsong])
   end
 
   def terminate(reason, request, state) do

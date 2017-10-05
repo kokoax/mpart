@@ -1,0 +1,20 @@
+.uk-container {
+  margin-right: 20px;
+  margin-left:  20px;
+}
+
+p.card-footer-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+img.song-img {
+  margin-top: 20px;
+}
+
+div.songs-info {
+  display: none;
+  flex-direction: row;
+}
+
