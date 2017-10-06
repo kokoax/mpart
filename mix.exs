@@ -25,6 +25,7 @@ defmodule MpdClient.Mixfile do
     [
       {:cowboy, "~> 1.1"},
       {:slime, "~> 1.0"},
+      {:poison, "~> 3.1"},
       {:httpoison, "~> 0.13"},
     ]
   end
