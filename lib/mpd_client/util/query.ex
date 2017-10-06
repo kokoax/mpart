@@ -1,4 +1,4 @@
-defmodule MpdClient.Query do
+defmodule MpdClient.Util.Query do
   def to_struct(data) do
     Regex.split(~r/\n/, data)
     |> Enum.map(&(Regex.split(~r/:\s/, &1)))

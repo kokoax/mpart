@@ -21,7 +21,7 @@ defmodule MpdClient.Handlers.MpdClient do
     # TODO: 例外時どうする？ => なんで例外が起こるの？
     {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpd_client.html.slime")
     albuminfo =
-      GenServer.call(:mpd_client_util, {:album_list})
+      GenServer.call(:util, {:album_list})
       |> Enum.filter(fn(item) -> item.type == "directory" end)
 
     albumimg =
@@ -42,7 +42,7 @@ defmodule MpdClient.Handlers.MpdClient do
     albumsong =
       albuminfo
       |> Enum.map(fn(info) ->
-        GenServer.call(:mpd_client_util, {:ls, info.data})
+        GenServer.call(:util, {:ls, info.data})
         |> Enum.filter(&(&1.type == "Title"))
         |> Enum.map(&(&1.data))
       end)

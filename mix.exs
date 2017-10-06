@@ -16,7 +16,7 @@ defmodule MpdClient.Mixfile do
   def application do
     [
       extra_applications: [:logger, :cowboy],
-      mod: {MpdClient.Application, []}
+      mod: {MpdClient, []}
     ]
   end
 

@@ -1,4 +1,4 @@
-defmodule MpdClient do
+defmodule MpdClient.Router do
   import Logger
 
   def start_link(_name) do
