@@ -13,6 +13,18 @@ img.song-img {
   margin-top: 20px;
 }
 
+li.accordion-overflow {
+  overflow: visible;
+}
+
+.uk-card-title {
+  white-space: nowrap;
+}
+
+div.accordion-content-padding {
+  padding-right: 40px;
+}
+
 div.songs-info {
   flex-direction: row;
 }
