@@ -1,4 +1,5 @@
 # MpdClient
+[![Build Status](https://api.travis-ci.org/kokoax/mpdart.svg)](https://api.travis-ci.org/kokoax/mpdart)
 
 **TODO: Add description**
 
