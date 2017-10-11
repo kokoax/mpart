@@ -5,7 +5,7 @@ defmodule MpdClient.Mixfile do
     [
       app: :mpd_client,
       version: "0.1.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.5.2",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps()
@@ -27,6 +27,7 @@ defmodule MpdClient.Mixfile do
       {:slime, "~> 1.0"},
       {:poison, "~> 3.1"},
       {:httpoison, "~> 0.13"},
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
     ]
   end
 end
