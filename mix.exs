@@ -8,6 +8,7 @@ defmodule MpdClient.Mixfile do
       elixir: "~> 1.5.2",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
+      elixirc_options: [all_warnings: true],
       deps: deps()
     ]
   end
