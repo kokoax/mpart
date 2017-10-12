@@ -1,4 +1,7 @@
 defmodule MpdClient.MpdData do
+  @moduledoc """
+  TODO: Add document
+  """
   defstruct [:type, :data]
   def new(type, data) do
     %MpdClient.MpdData {
@@ -12,8 +15,6 @@ defmodule MpdClient.MpdData do
       {data.type, data.data}
     end)
     |> Map.new
-    |> IO.inspect
     |> Poison.encode!
   end
 end
-

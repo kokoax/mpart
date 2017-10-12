@@ -1,7 +1,10 @@
 defmodule MpdClient.Util.Commands do
+  @moduledoc """
+  TODO: Add document
+  """
+
   import Logger
 
-  use Supervisor
   use GenServer
 
   alias MpdClient.Util.Query
@@ -16,18 +19,18 @@ defmodule MpdClient.Util.Commands do
     {:ok, pid}
   end
 
-  def mpd_sock() do
+  def mpd_sock do
      # TODO: domainとportを動的取得したい
     sock =
       case :gen_tcp.connect('localhost', 6600, [:binary, active: false]) do
         {:ok, sock} -> sock
-        {:error, reason} -> raise("MPD Do not running. or connection is missing")
+        {:error, _reason} -> raise("MPD Do not running. or connection is missing")
       end
 
     # TODO: RECVで使うバッファのサイズ指定 now(10^8)
     # IDEA: C++とかでやればよくね？
     # PROBLEM?: 恐らく1プロセスのメモリ量がかなり制限されていることが原因だと思われる
-    :ok = :inet.setopts(sock, recbuf: 100000000)
+    :ok = :inet.setopts(sock, recbuf: 100_000_000)
 
     sock
   end
@@ -76,8 +79,8 @@ defmodule MpdClient.Util.Commands do
   end
 
   def handle_call({:find, type, query}, _from, _) do
-    Logger.debug "Commnad find #{type} #{query}"
     res = Query.find(type, query, mpd_sock())
+    Logger.debug "Commnad find #{type} #{query}"
     {:reply, res, []}
   end
 
@@ -101,4 +104,3 @@ defmodule MpdClient.Util.Commands do
     {:reply, res, []}
   end
 end
-

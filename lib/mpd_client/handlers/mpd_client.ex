@@ -1,4 +1,7 @@
 defmodule MpdClient.Handlers.MpdClient do
+  @moduledoc """
+  TODO: Add document
+  """
   import Logger
 
   def init(_type, req, []) do
@@ -6,10 +9,10 @@ defmodule MpdClient.Handlers.MpdClient do
   end
 
   def handle(request, state) do
-    Logger.debug "#{IO.inspect(state)}"
+    Logger.debug "#{state}"
     {:ok, reply} = :cowboy_req.reply(
       200,
-      [ {"content-type", "text/html"}],
+      [{"content-type", "text/html"}],
       generate_body(),
       request)
 
@@ -18,10 +21,10 @@ defmodule MpdClient.Handlers.MpdClient do
 
   def generate_body do
     Logger.debug "generate_body from " <> System.cwd! <> "/priv/templates/mpd_client.html.slime"
-    # TODO: 例外時どうする？ => なんで例外が起こるの？
     {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpd_client.html.slime")
     albuminfo =
-      GenServer.call(:util, {:album_list})
+      :util
+      |> GenServer.call({:album_list})
       |> Enum.filter(fn(item) -> item.type == "directory" end)
 
     albumimg =
@@ -42,12 +45,21 @@ defmodule MpdClient.Handlers.MpdClient do
     albumsong =
       albuminfo
       |> Enum.map(fn(info) ->
-        GenServer.call(:util, {:ls, info.data})
+        :util
+        |> GenServer.call({:ls, info.data})
         |> Enum.filter(&(&1.type == "Title"))
         |> Enum.map(&(&1.data))
       end)
 
-    Slime.render(body, [site_title: "MPD Client test", albumname: albumname, albumimg: albumimg, albumsong: albumsong])
+    Slime.render(
+      body,
+      [
+        site_title: "MPD Client test",
+        albumname: albumname,
+        albumimg: albumimg,
+        albumsong: albumsong
+      ]
+    )
   end
 
   def terminate(reason, request, state) do
@@ -57,4 +69,3 @@ defmodule MpdClient.Handlers.MpdClient do
     :ok
   end
 end
-
