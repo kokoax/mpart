@@ -21,33 +21,16 @@ defmodule MpdClient.Handlers.MpdClient do
     # TODO: 例外時どうする？ => なんで例外が起こるの？
     {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpd_client.html.slime")
     albuminfo =
-      GenServer.call(:util, {:album_list})
+      :util
+      |> GenServer.call({:album_list})
       |> Enum.filter(fn(item) -> item.type == "directory" end)
 
-    albumimg =
+    detail =
       albuminfo
-      |> Enum.map(fn(_info) -> "/priv/static/images/cat.png" end)
-
-    albumname =
-      albuminfo
-      |> Enum.map(fn(info) ->
-        info.data |> Path.basename
-        |> String.replace(" ", "_")
-        |> String.replace("!", "_")
-        |> String.replace("?", "_")
-        |> String.replace("[", "_")
-        |> String.replace("]", "_")
+      |> MpdClient.AlbumData.from_lsinfo()
       end)
 
-    albumsong =
-      albuminfo
-      |> Enum.map(fn(info) ->
-        GenServer.call(:util, {:ls, info.data})
-        |> Enum.filter(&(&1.type == "Title"))
-        |> Enum.map(&(&1.data))
-      end)
-
-    Slime.render(body, [site_title: "MPD Client test", albumname: albumname, albumimg: albumimg, albumsong: albumsong])
+    Slime.render(body, [site_title: "MPD Client test", albuminfo: detail])
   end
 
   def terminate(reason, request, state) do

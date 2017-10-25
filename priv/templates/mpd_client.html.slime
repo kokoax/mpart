@@ -18,18 +18,18 @@ html
 
     div class="uk-container"
       ul class="uk-accordion uk-child-width-1-1@s uk-grid-match uk-grid" uk-accordion="placeholder"
-        = Enum.map Enum.zip(Enum.zip(albumname, albumimg), albumsong), fn {{name,img_path}, song} ->
+        = Enum.map albuminfo, fn info ->
           / アルバム一覧
           div class="uk-grid-margin"
             / div class="uk-grid-margin"
             li class="uk-accordion-title accordion-overflow"
               div class="uk-card uk-card-default uk-card-hover uk-child-width-1-4@s uk-margin" uk-grid="placeholder"
                 div class="uk-media-left"
-                  img.album-img src=img_path width="200px" height="200px"
+                  img.album-img src=info.image width="150px" height="150px"
                 div
                   div class=""
-                    h3 class="uk-card-title" = name
-                    p = "artist"
+                    h3 class="uk-card-title" = if info.album do info.album.data else info.dirname end
+                    / p = if info.albumartist do info.albumartist.data else "nil" end
 
             / アルバムに対応する曲などの情報
             div class="uk-accordion-content accordion-content-padding" aria-hidden="true" hidden="hidden"
@@ -37,8 +37,8 @@ html
               div class="uk-grid-margin uk-width-1-1"
                 div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-3@s uk-margin uk-grid"
                   div class="uk-card-body uk-width-2-3"
-                    h3 class="uk-card-title uk-text-left" = name
+                    / h3 class="uk-card-title uk-text-left" = info |> Enum.filter(&(&1.type == "Album")) |> Enum.at(0) |> MpdClient.MpdData.get
                     ul.uk-list.uk-list-divider
-                      = Enum.map song, fn s ->
-                        li = s
+                      = Enum.map info.songs, fn song ->
+                        li = if song.title do song.title.data else song.file.data |> Path.basename end
 
