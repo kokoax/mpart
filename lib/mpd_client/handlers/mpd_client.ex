@@ -1,4 +1,7 @@
 defmodule MpdClient.Handlers.MpdClient do
+  @moduledoc """
+  TODO: Add document
+  """
   import Logger
 
   def init(_type, req, []) do
@@ -6,10 +9,10 @@ defmodule MpdClient.Handlers.MpdClient do
   end
 
   def handle(request, state) do
-    Logger.debug "#{IO.inspect(state)}"
+    Logger.debug "#{state}"
     {:ok, reply} = :cowboy_req.reply(
       200,
-      [ {"content-type", "text/html"}],
+      [{"content-type", "text/html"}],
       generate_body(),
       request)
 
@@ -18,7 +21,6 @@ defmodule MpdClient.Handlers.MpdClient do
 
   def generate_body do
     Logger.debug "generate_body from " <> System.cwd! <> "/priv/templates/mpd_client.html.slime"
-    # TODO: 例外時どうする？ => なんで例外が起こるの？
     {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpd_client.html.slime")
     albuminfo =
       :util
@@ -26,9 +28,9 @@ defmodule MpdClient.Handlers.MpdClient do
       |> Enum.filter(fn(item) -> item.type == "directory" end)
 
     detail =
-      albuminfo
+      :util
+      |> GenServer.call({:lsinfo, "/"})
       |> MpdClient.AlbumData.from_lsinfo()
-      end)
 
     Slime.render(body, [site_title: "MPD Client test", albuminfo: detail])
   end
@@ -40,4 +42,3 @@ defmodule MpdClient.Handlers.MpdClient do
     :ok
   end
 end
-

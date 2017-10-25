@@ -1,4 +1,8 @@
 defmodule MpdClient.Handlers.Status do
+  @moduledoc """
+  TODO: Add document
+  """
+
   import Logger
 
   def init(_type, req, []) do
@@ -6,10 +10,10 @@ defmodule MpdClient.Handlers.Status do
   end
 
   def handle(request, state) do
-    Logger.debug "#{IO.inspect(state)}"
+    Logger.debug "#{state}"
     {:ok, reply} = :cowboy_req.reply(
       200,
-      [ {"content-type", "text/json"}],
+      [{"content-type", "text/json"}],
       generate_body(),
       request)
 
@@ -19,7 +23,7 @@ defmodule MpdClient.Handlers.Status do
   def generate_body do
     Logger.debug "generate_body from MPD's status"
 
-    GenServer.call(:mpd_client_util, {:status}) |> MpdClient.MpdData.to_json
+    :mpd_client_util |> GenServer.call({:status}) |> MpdClient.MpdData.to_json
   end
 
   def terminate(reason, request, state) do
@@ -29,4 +33,3 @@ defmodule MpdClient.Handlers.Status do
     :ok
   end
 end
-

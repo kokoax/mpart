@@ -1,4 +1,9 @@
 defmodule MpdClient.Handlers.Javascript do
+  @moduledoc """
+  This module is javascript handler from /priv/static/js/:javascript
+  """
+  import Logger
+
   def init(_type, req, []) do
     {:ok, req, :no_state}
   end
@@ -6,8 +11,8 @@ defmodule MpdClient.Handlers.Javascript do
   def handle(request, state) do
     # Logger.debug "#{IO.inspect(state)}"
 
-    method = :cowboy_req.method(request) |> elem(0)
-    param = :cowboy_req.binding(:javascript, request) |> elem(0)
+    method = request |> :cowboy_req.method |> elem(0)
+    param = :javascript |> :cowboy_req.binding(request) |> elem(0)
     {:ok, reply} = html_example(method, param, request)
     {:ok, reply, state}
   end
@@ -25,10 +30,9 @@ defmodule MpdClient.Handlers.Javascript do
   end
 
   def terminate(reason, request, state) do
-    # Logger.debug "Terminate for reason: #{inspect(reason)}"
-    # Logger.debug "Terminate after request: #{inspect(request)}"
-    # Logger.debug "Ternimating with state: #{inspect(state)}"
+    Logger.debug "Terminate for reason: #{inspect(reason)}"
+    Logger.debug "Terminate after request: #{request}"
+    Logger.debug "Ternimating with state: #{state}"
     :ok
   end
 end
-

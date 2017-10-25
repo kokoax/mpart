@@ -5,7 +5,8 @@ defmodule MpdClient.Util.Query do
   import Logger
 
   def to_struct(data) do
-    Regex.split(~r/\n/, data)
+    ~r(\n)
+    |> Regex.split(data)
     |> Enum.map(&(Regex.split(~r/:\s/, &1)))
     |> Enum.map(fn(item) ->
       MpdClient.MpdData.new(
@@ -21,7 +22,7 @@ defmodule MpdClient.Util.Query do
   end
 
   def database_list(sock) do
-    MpdClient.Query.cmd_do("list MPD \n", sock)
+    MpdClient.Util.Query.cmd_do("list MPD \n", sock)
   end
 
   def list_all(file_name \\ "/", sock)
@@ -65,7 +66,8 @@ defmodule MpdClient.Util.Query do
   # 全ての音楽ファイルのPathを抽出して、そのディレクトリ名をmap
   # それをuniqすれば、アルバム名が取り出せる算段
   def album_list(sock) do
-    cmd_do(~s(listall \n), sock)
+    ~s(listall \n)
+    |> cmd_do(sock)
     |> Enum.filter(&(&1.type == "file"))
     |> Enum.map(fn(minfo) ->
       MpdClient.MpdData.new(
@@ -76,14 +78,16 @@ defmodule MpdClient.Util.Query do
   end
 
   def list_all_file(sock) do
-    MpdClient.Query.list_all(sock)
+    sock
+    |> MpdClient.Util.Query.list_all
     |> Enum.filter(fn(info) ->
       info |> Map.has_key?("file")
     end)
   end
 
   def list_all_dir(sock) do
-    MpdClient.Query.list_all(sock)
+    sock
+    |> MpdClient.Util.Query.list_all
     |> Enum.filter(fn(info) ->
       info |> Map.has_key?("directory")
     end)
@@ -97,12 +101,10 @@ defmodule MpdClient.Util.Query do
 
     :gen_tcp.close(sock)
 
-    Enum.join(
-      msg
-      |> Enum.map(fn(<<c::utf8>>) ->
-        <<c::utf8>>
-      end))
-      |> to_struct
+    msg
+    |> String.to_charlist
+    |> Enum.map(&([&1] |> to_string))
+    |> Enum.join
+    |> to_struct
   end
 end
-

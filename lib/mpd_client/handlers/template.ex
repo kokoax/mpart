@@ -1,4 +1,8 @@
 defmodule MpdClient.Handlers.Template do
+  @moduledoc """
+  TODO: Add document
+  """
+
   def init(req, opts) do
     method = :cowboy_req.method(req)
     param = :cowboy_req.binding(:javascript, req)
@@ -18,4 +22,3 @@ defmodule MpdClient.Handlers.Template do
     :cowboy_req.reply(200, [headers], body, req)
   end
 end
-

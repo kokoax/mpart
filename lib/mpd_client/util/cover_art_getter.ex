@@ -1,4 +1,7 @@
 defmodule MpdClient.Util.CoverArtGetter do
+  @moduledoc """
+  TODO: Add document
+  """
 
   import Logger
   use GenServer
@@ -16,8 +19,10 @@ defmodule MpdClient.Util.CoverArtGetter do
   def search_song(album) do
     api_token = Application.get_env(:mpd_client, :api_token)
     query = Regex.replace(~r(_+), album, " ")
-    url = "http://ws.audioscrobbler.com/2.0/?method=album.search&album='#{query}'&api_key=#{api_token}&format=json"
-    %HTTPoison.Response{status_code: 200, body: body} = HTTPoison.get!(url, [], [recv_timeout: :infinity])
+    url = "http://ws.audioscrobbler.com/2.0/" <>
+      "?method=album.search&album='#{query}'&api_key=#{api_token}&format=json"
+    %HTTPoison.Response{status_code: 200, body: body} =
+      HTTPoison.get!(url, [], [recv_timeout: :infinity])
     json = body |> Poison.decode!
       json["results"]["albummatches"]["album"]
       |> Enum.at(0)
@@ -32,4 +37,3 @@ defmodule MpdClient.Util.CoverArtGetter do
     {:reply, img_url, state}
   end
 end
-

@@ -1,5 +1,7 @@
 defmodule MpdClient do
-  @moduledoc false
+  @moduledoc """
+  This is root supervisor module.
+  """
 
   import Logger
 
