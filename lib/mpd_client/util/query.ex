@@ -1,4 +1,9 @@
 defmodule MpdClient.Util.Query do
+  @moduledoc """
+  TODO: Add document
+  """
+  import Logger
+
   def to_struct(data) do
     Regex.split(~r/\n/, data)
     |> Enum.map(&(Regex.split(~r/:\s/, &1)))
@@ -25,7 +30,7 @@ defmodule MpdClient.Util.Query do
   end
 
   def ls(dir_name, sock) do
-    cmd_do(~s(lsinfo "#{dir_name}" \n), sock)
+    cmd_do(~s(lsinfo "#{dir_name}"\n), sock)
   end
 
   def stats(sock) do
@@ -92,8 +97,12 @@ defmodule MpdClient.Util.Query do
 
     :gen_tcp.close(sock)
 
-    Enum.join(for <<c::utf8 <- msg>>, do: <<c::utf8>>)
-    |> to_struct
+    Enum.join(
+      msg
+      |> Enum.map(fn(<<c::utf8>>) ->
+        <<c::utf8>>
+      end))
+      |> to_struct
   end
 end
 

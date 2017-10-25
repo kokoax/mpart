@@ -12,8 +12,10 @@ defmodule MpdClient.MpdData do
       {data.type, data.data}
     end)
     |> Map.new
-    |> IO.inspect
     |> Poison.encode!
+  end
+  def get(mpd_data) do
+    mpd_data.data
   end
 end
 
