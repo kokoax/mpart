@@ -29,6 +29,7 @@ defmodule MpdClient.Mixfile do
       {:poison, "~> 3.1"},
       {:httpoison, "~> 0.13"},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      {:taglib, "~> 0.2"},
     ]
   end
 end
