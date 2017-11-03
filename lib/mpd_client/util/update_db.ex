@@ -1,7 +1,6 @@
 defmodule MpdClient.Util.UpdateDB do
   use GenServer
   import Logger
-  @musicdir "/home/kokoax/Music/"
 
   def update_db do
     {:ok, conn} = Redix.start_link(host: "localhost", port: 6379)
@@ -10,7 +9,7 @@ defmodule MpdClient.Util.UpdateDB do
     |> GenServer.call({:list_all, "/"})
     |> Enum.filter(&(&1.type == "file"))
     |> Enum.each(fn(path) ->
-      {:ok, t} = (@musicdir <> path.data) |> Taglib.new()
+      {:ok, t} = (Application.get_env(:mpd_client, :musicdir) <> path.data) |> Taglib.new()
       t |> store_data(path.data, conn)
     end)
   end
