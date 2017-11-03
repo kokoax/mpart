@@ -27,8 +27,10 @@ defmodule MpdClient.Util.UpdateDB do
       fn(tag) -> {path <> ":track",       tag |> Taglib.track()} end,
       fn(tag) -> {path <> ":year",        tag |> Taglib.year()} end,
     ] |> Enum.each(fn(func) ->
-      {id, key} = tag |> func.()
-      conn |> Redix.command(["SET", id, key])
+      Task.async(fn ->
+        {id, key} = tag |> func.()
+        conn |> Redix.command(["SET", id, key])
+      end)
     end)
     :ok
   end
