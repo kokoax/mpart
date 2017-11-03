@@ -3,7 +3,9 @@ defmodule MpdClient.Util.UpdateDB do
   import Logger
 
   def update_db do
-    {:ok, conn} = Redix.start_link(host: "localhost", port: 6379)
+    host = Application.get_env(:mpd_client, :redis_host)
+    port = Application.get_env(:mpd_client, :redis_port)
+    {:ok, conn} = Redix.start_link(host: host, port: port)
 
     :util
     |> GenServer.call({:list_all, "/"})
