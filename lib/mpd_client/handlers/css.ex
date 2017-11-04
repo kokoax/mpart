@@ -31,8 +31,8 @@ defmodule MpdClient.Handlers.Css do
 
   def terminate(reason, request, state) do
     Logger.debug "Terminate for reason: #{inspect(reason)}"
-    Logger.debug "Terminate after request: #{request}"
-    Logger.debug "Ternimating with state: #{state}"
+    Logger.debug "Terminate after request: #{inspect(request)}"
+    Logger.debug "Ternimating with state: #{inspect(state)}"
     :ok
   end
 end
