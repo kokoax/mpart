@@ -1,7 +1,7 @@
 language: elixir
 elixir: 1.5.2
-sudo: true
-compiler: gcc
+otp_release: 18.3
+compiler: clang
 
 before_script:
   - sudo apt-get update -qq
