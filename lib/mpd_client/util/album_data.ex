@@ -1,4 +1,7 @@
 defmodule MpdClient.AlbumData do
+  @moduledoc """
+  The module is struct of album data from command of MPD.
+  """
   defstruct [:songs, :album, :albumartist, :dirname, :image]
   import Logger
 
@@ -126,6 +129,10 @@ defmodule MpdClient.AlbumData do
 end
 
 defmodule MpdClient.SongData do
+  @moduledoc """
+  The module is struct of specific music data.
+  """
+
   defstruct [:title, :file, :time, :duration]
   def new(title, file, time, duration) do
     %MpdClient.SongData {

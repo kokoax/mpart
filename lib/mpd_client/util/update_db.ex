@@ -1,4 +1,7 @@
 defmodule MpdClient.Util.UpdateDB do
+  @moduledoc """
+  The module update music data on Redis, from music directory.
+  """
   use GenServer
   import Logger
 
