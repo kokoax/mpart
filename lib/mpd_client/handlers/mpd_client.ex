@@ -9,7 +9,7 @@ defmodule MpdClient.Handlers.MpdClient do
   end
 
   def handle(request, state) do
-    Logger.debug "#{state}"
+    Logger.debug fn -> "#{state}" end
     {:ok, reply} = :cowboy_req.reply(
       200,
       [{"content-type", "text/html"}],
@@ -20,7 +20,7 @@ defmodule MpdClient.Handlers.MpdClient do
   end
 
   def generate_body do
-    Logger.debug "generate_body from " <> System.cwd! <> "/priv/templates/mpd_client.html.slime"
+    Logger.debug fn -> "generate_body from " <> System.cwd! <> "/priv/templates/mpd_client.html.slime" end
     {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpd_client.html.slime")
     albuminfo =
       :util
@@ -36,9 +36,9 @@ defmodule MpdClient.Handlers.MpdClient do
   end
 
   def terminate(reason, request, state) do
-    Logger.debug "Terminate for reason: #{inspect(reason)}"
-    Logger.debug "Terminate after request: #{inspect(request)}"
-    Logger.debug "Ternimating with state: #{inspect(state)}"
+    Logger.debug fn -> "Terminate for reason: #{inspect(reason)}" end
+    Logger.debug fn -> "Terminate after request: #{inspect(request)}" end
+    Logger.debug fn -> "Ternimating with state: #{inspect(state)}" end
     :ok
   end
 end

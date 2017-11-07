@@ -9,7 +9,7 @@ defmodule MpdClient.Handlers.Javascript do
   end
 
   def handle(request, state) do
-    # Logger.debug "#{IO.inspect(state)}"
+    # Logger.debug fn -> "#{IO.inspect(state)}" end
 
     method = request |> :cowboy_req.method |> elem(0)
     param = :javascript |> :cowboy_req.binding(request) |> elem(0)
@@ -30,9 +30,9 @@ defmodule MpdClient.Handlers.Javascript do
   end
 
   def terminate(reason, request, state) do
-    Logger.debug "Terminate for reason: #{inspect(reason)}"
-    Logger.debug "Terminate after request: #{request}"
-    Logger.debug "Ternimating with state: #{state}"
+    Logger.debug fn -> "Terminate for reason: #{inspect(reason)}" end
+    Logger.debug fn -> "Terminate after request: #{request}" end
+    Logger.debug fn -> "Ternimating with state: #{state}" end
     :ok
   end
 end
