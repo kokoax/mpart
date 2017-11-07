@@ -18,18 +18,17 @@ html
 
     div class="uk-container"
       ul class="uk-accordion uk-child-width-1-1@s uk-grid-match uk-grid" uk-accordion="placeholder"
-        = Enum.map albuminfo, fn info ->
+        = Enum.map albumnames, fn aname->
           / アルバム一覧
           div class="uk-grid-margin"
             / div class="uk-grid-margin"
             li class="uk-accordion-title accordion-overflow"
               div class="uk-card uk-card-default uk-card-hover uk-child-width-1-4@s uk-margin" uk-grid="placeholder"
                 div class="uk-media-left"
-                  img.album-img src=info.image width="150px" height="150px"
+                  img.album-img src="/priv/static/images/no_image.png" width="150px" height="150px"
                 div
                   div class=""
-                    h3 class="uk-card-title" = if info.album do info.album.data else info.dirname end
-                    / p = if info.albumartist do info.albumartist.data else "nil" end
+                    h3 class="uk-card-title" = aname |> Path.basename
 
             / アルバムに対応する曲などの情報
             div class="uk-accordion-content accordion-content-padding" aria-hidden="true" hidden="hidden"
@@ -39,6 +38,6 @@ html
                   div class="uk-card-body uk-width-2-3"
                     / h3 class="uk-card-title uk-text-left" = info |> Enum.filter(&(&1.type == "Album")) |> Enum.at(0) |> MpdClient.MpdData.get
                     ul.uk-list.uk-list-divider
-                      = Enum.map info.songs, fn song ->
-                        li = if song.title do song.title.data else song.file.data |> Path.basename end
+                      = Redix.command!(conn, ["KEYS", (aname |> String.replace("[", "\\[") |> String.replace("]", "\\]")) <> "/*"]) |> Enum.map fn key ->
+                        li id="#{[aname, "/", key] |> Enum.join}" = Redix.command!(conn, ["HGET", key, "title"])
 
