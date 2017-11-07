@@ -6,8 +6,6 @@ compiler: clang
 before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libtag1v5
-  - wget http://launchpadlibrarian.net/290897497/libtag1-dev_1.11.1-0.1ubuntu2_amd64.deb
-  - sudo dpkg -i libtag1-dev_1.11.1-0.1ubuntu2_amd64.deb
   - sudo apt-get install -qq build-essential
   - sudo apt-get install -qq erlang-dev
   - mix deps.get
