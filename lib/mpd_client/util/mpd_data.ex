@@ -1,6 +1,6 @@
 defmodule MpdClient.MpdData do
   @moduledoc """
-  TODO: Add document
+  Add document
   """
   defstruct [:type, :data]
   def new(type, data) do

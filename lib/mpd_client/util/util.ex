@@ -1,6 +1,6 @@
 defmodule MpdClient.Util.Commands do
   @moduledoc """
-  TODO: Add document
+  Add document
   """
 
   import Logger
@@ -20,22 +20,17 @@ defmodule MpdClient.Util.Commands do
   end
 
   def mpd_sock do
-     # TODO: domainとportを動的取得したい
     sock =
       case :gen_tcp.connect('localhost', 6600, [:binary, active: false]) do
         {:ok, sock} -> sock
         {:error, _reason} -> raise("MPD Do not running. or connection is missing")
       end
 
-    # TODO: RECVで使うバッファのサイズ指定 now(10^8)
-    # IDEA: C++とかでやればよくね？
-    # PROBLEM?: 恐らく1プロセスのメモリ量がかなり制限されていることが原因だと思われる
     :ok = :inet.setopts(sock, recbuf: 100_000_000)
 
     sock
   end
 
-  # TODO: Utilを全部ラップ
   def handle_call({:current}, _from, _) do
     Logger.debug fn -> "Commnad current" end
     res = Query.current(mpd_sock())
@@ -97,7 +92,6 @@ defmodule MpdClient.Util.Commands do
     {:reply, res, []}
   end
 
-  # TODO: album名取得はelixirで実装
   def handle_call({:album_list}, _from, _) do
     Logger.debug fn -> "Commnad album list" end
     res = Query.album_list(mpd_sock())

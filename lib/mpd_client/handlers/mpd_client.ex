@@ -1,6 +1,6 @@
 defmodule MpdClient.Handlers.MpdClient do
   @moduledoc """
-  TODO: Add document
+  Add document
   """
   import Logger
 
