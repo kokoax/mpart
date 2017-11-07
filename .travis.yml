@@ -2,12 +2,17 @@ language: elixir
 elixir: 1.5.2
 otp_release: 18.3
 compiler: clang
+sudo: required
 
 before_script:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq libtag1v5
+  - sudo apt-get install -qq libtag1-dev
   - sudo apt-get install -qq build-essential
   - sudo apt-get install -qq erlang-dev
+
+  - wget http://launchpadlibrarian.net/290897497/libtag1-dev_1.11.1-0.1ubuntu2_amd64.deb
+  - sudo dpkg -i libtag1-dev_1.11.1-0.1ubuntu2_amd64.deb
+
   - mix deps.get
 
 script:
