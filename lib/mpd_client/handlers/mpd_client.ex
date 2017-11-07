@@ -4,6 +4,8 @@ defmodule MpdClient.Handlers.MpdClient do
   """
   import Logger
 
+  alias MpdClient.AlbumData
+
   def init(_type, req, []) do
     {:ok, req, :no_state}
   end
@@ -30,7 +32,7 @@ defmodule MpdClient.Handlers.MpdClient do
     detail =
       :util
       |> GenServer.call({:lsinfo, "/"})
-      |> MpdClient.AlbumData.from_lsinfo()
+      |> AlbumData.from_lsinfo()
 
     Slime.render(body, [site_title: "MPD Client test", albuminfo: detail])
   end

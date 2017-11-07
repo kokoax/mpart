@@ -5,6 +5,8 @@ defmodule MpdClient.Handlers.Status do
 
   import Logger
 
+  alias MpdClient.MpdData
+
   def init(_type, req, []) do
     {:ok, req, :no_state}
   end
@@ -23,7 +25,7 @@ defmodule MpdClient.Handlers.Status do
   def generate_body do
     Logger.debug "generate_body from MPD's status"
 
-    :mpd_client_util |> GenServer.call({:status}) |> MpdClient.MpdData.to_json
+    :mpd_client_util |> GenServer.call({:status}) |> MpdData.to_json
   end
 
   def terminate(reason, request, state) do
