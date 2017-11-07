@@ -24,17 +24,16 @@ defmodule MpdClient.Handlers.MpdClient do
   def generate_body do
     Logger.debug fn -> "generate_body from " <> System.cwd! <> "/priv/templates/mpd_client.html.slime" end
     {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpd_client.html.slime")
-    albuminfo =
+    host = Application.get_env(:mpd_client, :redis_host)
+    port = Application.get_env(:mpd_client, :redis_port)
+    {:ok, conn} = Redix.start_link(host: host, port: port)
+
+    albumnames=
       :util
       |> GenServer.call({:album_list})
-      |> Enum.filter(fn(item) -> item.type == "directory" end)
+      |> Enum.map(&(&1.data))
 
-    detail =
-      :util
-      |> GenServer.call({:lsinfo, "/"})
-      |> AlbumData.from_lsinfo()
-
-    Slime.render(body, [site_title: "MPD Client test", albuminfo: detail])
+    Slime.render(body, [site_title: "MPD Client test", albumnames: albumnames, conn: conn])
   end
 
   def terminate(reason, request, state) do
