@@ -17,7 +17,6 @@ defmodule MpdClient.Router do
       {
         :_,
         [
-          # TODO: 増やせごらぁ
           {"/", :cowboy_static, {:priv_file, :mpd_client, "static/index.html"}},
           {"/priv/static/js/:javascript", MpdClient.Handlers.Javascript, []},
           {"/priv/static/css/:css",       MpdClient.Handlers.Css, []},

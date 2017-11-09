@@ -1,10 +1,18 @@
 defmodule MpdClient.AlbumData do
+  @moduledoc """
+  The module is struct of album data from command of MPD.
+  """
   defstruct [:songs, :album, :albumartist, :dirname, :image]
   import Logger
 
+  alias MpdClient.Util.Commands
+  alias MpdClient.MpdData
+  alias MpdClient.SongData
+  alias MpdClient.AlbumData
+
   def from_lsinfo(lsinfo) do
     Logger.debug "MpdClient.AlbumData from_lsinfo"
-    %MpdClient.AlbumData {
+    %AlbumData {
       songs: lsinfo |> get_songs(),
       album: lsinfo |> get_album(),
       albumartist: lsinfo |> get_albumartist(),
@@ -67,11 +75,11 @@ defmodule MpdClient.AlbumData do
     |> get_file
     |> Enum.map(fn(file) ->
       # Task.async(fn -> GenServer.call(:util, {:ls, file.data}) end)
-      MpdClient.Util.Query.ls(file.data, MpdClient.Util.Commands.mpd_sock())
+      Query.ls(file.data, Commands.mpd_sock())
     end)
     # |> Enum.map(&(&1 |> Task.await))
     |> Enum.map(fn(songinfo) ->
-      MpdClient.SongData.new(
+      SongData.new(
         songinfo |> get_title    |> get_one,
         songinfo |> get_file     |> get_one,
         songinfo |> get_time     |> get_one,
@@ -100,7 +108,7 @@ defmodule MpdClient.AlbumData do
         if artist |> Enum.count == 1 do
           artist |> Enum.at(0)
         else
-          %MpdClient.MpdData {
+          %MpdData {
             type: "Artist",
             data: "Various"
           }
@@ -114,7 +122,7 @@ defmodule MpdClient.AlbumData do
     lsinfo
     |> Enum.filter(&(&1.type == "file"))
     |> Enum.at(0)
-    |> MpdClient.MpdData.get
+    |> MpdData.get
     |> Path.dirname
     |> Path.basename
   end
@@ -126,9 +134,16 @@ defmodule MpdClient.AlbumData do
 end
 
 defmodule MpdClient.SongData do
+  @moduledoc """
+  The module is struct of specific music data.
+  """
+
   defstruct [:title, :file, :time, :duration]
+
+  alias MpdClient.SongData
+
   def new(title, file, time, duration) do
-    %MpdClient.SongData {
+    %SongData {
       title: title,
       file: file,
       time: time,
@@ -136,4 +151,3 @@ defmodule MpdClient.SongData do
     }
   end
 end
-

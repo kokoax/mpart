@@ -17,5 +17,5 @@
   "redix": {:hex, :redix, "0.6.1", "20986b0e02f02b13e6f53c79a1ae70aa83147488c408f40275ec261f5bb0a6d0", [], [{:connection, "~> 1.0", [hex: :connection, repo: "hexpm", optional: false]}], "hexpm"},
   "slime": {:hex, :slime, "1.0.0", "1566bf978cd7dc4043e1c6bd4beb03f94f586460920a1860e4cb30a5b6f3335d", [:mix], [{:neotoma, "~> 1.7", [hex: :neotoma, repo: "hexpm", optional: false]}], "hexpm"},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.1", "28a4d65b7f59893bc2c7de786dec1e1555bd742d336043fe644ae956c3497fbe", [:make, :rebar], [], "hexpm"},
-  "taglib": {:hex, :taglib, "0.2.1", "01a34e44c9f24c5f475e2bccf3a12586a95eeb7a11b238f023e8981ea225490c", [], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
+  "taglib": {:hex, :taglib, "0.2.1", "01a34e44c9f24c5f475e2bccf3a12586a95eeb7a11b238f023e8981ea225490c", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
   "unicode_util_compat": {:hex, :unicode_util_compat, "0.3.1", "a1f612a7b512638634a603c8f401892afbf99b8ce93a45041f8aaca99cadb85e", [:rebar3], [], "hexpm"}}

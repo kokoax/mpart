@@ -1,15 +1,18 @@
 defmodule MpdClient.Util.Query do
   @moduledoc """
-  TODO: Add document
+  Add document
   """
   import Logger
+
+  alias MpdClient.MpdData
+  alias MpdClient.Util.Query
 
   def to_struct(data) do
     ~r(\n)
     |> Regex.split(data)
     |> Enum.map(&(Regex.split(~r/:\s/, &1)))
     |> Enum.map(fn(item) ->
-      MpdClient.MpdData.new(
+      MpdData.new(
         Enum.at(item, 0),
         Enum.at(item, 1)
       )
@@ -22,7 +25,7 @@ defmodule MpdClient.Util.Query do
   end
 
   def database_list(sock) do
-    MpdClient.Util.Query.cmd_do("list MPD \n", sock)
+    Query.cmd_do("list MPD \n", sock)
   end
 
   def list_all(file_name \\ "/", sock)
@@ -70,7 +73,7 @@ defmodule MpdClient.Util.Query do
     |> cmd_do(sock)
     |> Enum.filter(&(&1.type == "file"))
     |> Enum.map(fn(minfo) ->
-      MpdClient.MpdData.new(
+      MpdData.new(
         "directory",
         minfo.data |> Path.dirname)
     end)
@@ -79,7 +82,7 @@ defmodule MpdClient.Util.Query do
 
   def list_all_file(sock) do
     sock
-    |> MpdClient.Util.Query.list_all
+    |> Query.list_all
     |> Enum.filter(fn(info) ->
       info |> Map.has_key?("file")
     end)
@@ -87,7 +90,7 @@ defmodule MpdClient.Util.Query do
 
   def list_all_dir(sock) do
     sock
-    |> MpdClient.Util.Query.list_all
+    |> Query.list_all
     |> Enum.filter(fn(info) ->
       info |> Map.has_key?("directory")
     end)

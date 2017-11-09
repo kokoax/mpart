@@ -9,7 +9,7 @@ defmodule MpdClient.Handlers.Css do
   end
 
   def handle(request, state) do
-    # Logger.debug "#{IO.inspect(state)}"
+    # Logger.debug fn -> "#{IO.inspect(state)}" end
 
     method = request |> :cowboy_req.method() |> elem(0)
     param = :css |> :cowboy_req.binding(request) |> elem(0)
@@ -30,9 +30,10 @@ defmodule MpdClient.Handlers.Css do
   end
 
   def terminate(reason, request, state) do
-    Logger.debug "Terminate for reason: #{inspect(reason)}"
-    Logger.debug "Terminate after request: #{inspect(request)}"
-    Logger.debug "Ternimating with state: #{inspect(state)}"
+    Logger.debug "terminate MpdClient.Handlers.Css"
+    Logger.debug fn -> "Terminate for reason: #{inspect(reason)}" end
+    Logger.debug fn -> "Terminate after request: #{inspect(request)}" end
+    Logger.debug fn -> "Ternimating with state: #{inspect(state)}" end
     :ok
   end
 end

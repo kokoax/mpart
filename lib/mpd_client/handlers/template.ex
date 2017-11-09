@@ -1,6 +1,6 @@
 defmodule MpdClient.Handlers.Template do
   @moduledoc """
-  TODO: Add document
+  Add document
   """
 
   def init(req, opts) do

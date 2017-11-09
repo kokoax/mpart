@@ -1,4 +1,7 @@
 defmodule MpdClient.Util.UpdateDB do
+  @moduledoc """
+  The module update music data on Redis, from music directory.
+  """
   use GenServer
   import Logger
 
@@ -11,7 +14,9 @@ defmodule MpdClient.Util.UpdateDB do
     |> GenServer.call({:list_all, "/"})
     |> Enum.filter(&(&1.type == "file"))
     |> Enum.each(fn(path) ->
-      {:ok, t} = (Application.get_env(:mpd_client, :musicdir) <> path.data) |> Taglib.new()
+      {:ok, t} =
+        (Application.get_env(:mpd_client, :musicdir) <> path.data)
+        |> Taglib.new()
       t |> store_data(path.data, conn)
     end)
   end
