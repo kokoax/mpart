@@ -4,9 +4,16 @@ otp_release: 18.3
 compiler: clang
 sudo: required
 
+scripts:
+  - docker
+
 before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libtag1-dev build-essential
+
+  - docker pull redis
+  - docker run --name redis -d -p 6379:6379 redis:latest
+
   - mix deps.get
 
 script:
