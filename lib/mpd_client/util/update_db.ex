@@ -22,9 +22,21 @@ defmodule MpdClient.Util.UpdateDB do
   end
 
   def store_data(tag, path, conn) do
+    path = ["Song:", path] |> Enum.join()
+
+    album = tag |> Taglib.album()
+    artist = tag |> Taglib.artist()
+    album_key = ["Album:", album, ":", artist] |> Enum.join()
+
+    conn |> Redix.command(["HSET", album_key, "album", album])
+    conn |> Redix.command(["HSET", path, "album", album])
+    conn |> Redix.command(["HSET", album_key, "artist", artist])
+    conn |> Redix.command(["HSET", path, "artist", artist])
+
+    conn |> Redix.command(["HSET", album_key, "coverart", "/priv/static/images/no_image.png"])
+    conn |> Redix.command(["SADD", [album_key, ":", "songs"] |> Enum.join(), path])
+
     [
-      fn(tag) -> {"album",       tag |> Taglib.album()} end,
-      fn(tag) -> {"artist",      tag |> Taglib.artist()} end,
       fn(tag) -> {"compilation", tag |> Taglib.compilation()} end,
       fn(tag) -> {"disc",        tag |> Taglib.disc()} end,
       fn(tag) -> {"duration",    tag |> Taglib.duration()} end,
