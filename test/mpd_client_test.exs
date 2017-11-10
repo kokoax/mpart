@@ -8,7 +8,7 @@ defmodule MpdClientTest do
     host = Application.get_env(:mpd_client, :redis_host)
     port = Application.get_env(:mpd_client, :redis_port)
     {:ok, conn} = Redix.start_link(host: host, port: port)
-    path = System.cwd! <> "/test/morning.mp3"
+    path = System.cwd! <> "/test/sample/test_music.mp3"
 
     {:ok, tag} = path |> Taglib.new()
     tag |> UpdateDB.store_data(path, conn)
