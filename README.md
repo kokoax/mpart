@@ -5,7 +5,7 @@ Must write
 ``` config/config.exs
 use Mix.Config
 config :mpd_client,
-  api_token: "Discogs API Token",
+  api_token: "Last.fm API Token",
   musicdir: "/path/to/your/Musicdir",
   redis_host: "localhost",
   redis_port: 6379
