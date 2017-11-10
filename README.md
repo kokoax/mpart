@@ -1,6 +1,5 @@
 # MpdClient
-
-[![Travis](https://api.travis-ci.org/kokoax/mpdart.svg)](https://api.travis-ci.org/kokoax/mpdart)
+[![Build Status](https://api.travis-ci.org/kokoax/mpdart.svg)](https://api.travis-ci.org/kokoax/mpdart)
 
 Must write
 ``` config/config.exs
