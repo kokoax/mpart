@@ -28,8 +28,8 @@ html
                   img.album-img src="/priv/static/images/no_image.png" width="150px" height="150px"
                 div
                   div class=""
-                    h3 class="uk-card-title" = aname |> Path.basename
-
+                    h3 class="uk-card-title" = Redix.command!(conn, ["HGET", aname, "album"])
+                    p class="uk-card-title" = Redix.command!(conn, ["HGET", aname, "artist"])
             / アルバムに対応する曲などの情報
             div class="uk-accordion-content accordion-content-padding" aria-hidden="true" hidden="hidden"
               / div class="uk-grid-margin uk-width-1-1 uk-animation-slide-bottom-medium uk-hidden songs-info" id="#{name}"
@@ -38,6 +38,6 @@ html
                   div class="uk-card-body uk-width-2-3"
                     / h3 class="uk-card-title uk-text-left" = info |> Enum.filter(&(&1.type == "Album")) |> Enum.at(0) |> MpdClient.MpdData.get
                     ul.uk-list.uk-list-divider
-                      = Redix.command!(conn, ["KEYS", (aname |> String.replace("[", "\\[") |> String.replace("]", "\\]")) <> "/*"]) |> Enum.map fn key ->
+                      = Redix.command!(conn, ["SMEMBERS", Regex.replace(~r"^Album:", aname, "Songs:")]) |> Enum.map fn key ->
                         li id="#{[aname, "/", key] |> Enum.join}" = Redix.command!(conn, ["HGET", key, "title"])
 
