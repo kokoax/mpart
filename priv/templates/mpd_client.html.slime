@@ -38,6 +38,6 @@ html
                   div class="uk-card-body uk-width-2-3"
                     / h3 class="uk-card-title uk-text-left" = info |> Enum.filter(&(&1.type == "Album")) |> Enum.at(0) |> MpdClient.MpdData.get
                     ul.uk-list.uk-list-divider
-                      = Redix.command!(conn, ["SMEMBERS", aname |> String.replace("Album:", "Songs:")]) |> Enum.map fn key ->
+                      = Redix.command!(conn, ["SMEMBERS", Regex.replace(~r"^Album:", aname, "Songs:")]) |> Enum.map fn key ->
                         li id="#{[aname, "/", key] |> Enum.join}" = Redix.command!(conn, ["HGET", key, "title"])
 
