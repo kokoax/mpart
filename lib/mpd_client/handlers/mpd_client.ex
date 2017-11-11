@@ -28,10 +28,7 @@ defmodule MpdClient.Handlers.MpdClient do
     port = Application.get_env(:mpd_client, :redis_port)
     {:ok, conn} = Redix.start_link(host: host, port: port)
 
-    albumnames =
-      :util
-      |> GenServer.call({:album_list})
-      |> Enum.map(&(&1.data))
+    albumnames = Redix.command!(conn, ["KEYS", "Album:*"])
 
     Slime.render(body, [site_title: "MPD Client test", albumnames: albumnames, conn: conn])
   end
