@@ -21,13 +21,8 @@ defmodule MpdClient.Util.UpdateDB do
     end)
   end
 
-  def is_none(str) do
-    if str == "" do
-      "Unknown"
-    else
-      str
-    end
-  end
+  def is_none(""), do: "Unknown"
+  def is_none(str), do: str
 
   def store_data(tag, path, conn) do
     path = ["Song:", path] |> Enum.join()
