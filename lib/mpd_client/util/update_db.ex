@@ -21,12 +21,21 @@ defmodule MpdClient.Util.UpdateDB do
     end)
   end
 
+  def is_none(str) do
+    if str == "" do
+      "Unknown"
+    else
+      str
+    end
+  end
+
   def store_data(tag, path, conn) do
     path = ["Song:", path] |> Enum.join()
 
-    album = tag |> Taglib.album()
-    artist = tag |> Taglib.artist()
+    album = tag |> Taglib.album() |> is_none
+    artist = tag |> Taglib.artist() |> is_none
     album_key = ["Album:", album, ":", artist] |> Enum.join()
+    songs_key = ["Songs:", album, ":", artist] |> Enum.join()
 
     conn |> Redix.command(["HSET", album_key, "album", album])
     conn |> Redix.command(["HSET", path, "album", album])
@@ -34,7 +43,7 @@ defmodule MpdClient.Util.UpdateDB do
     conn |> Redix.command(["HSET", path, "artist", artist])
 
     conn |> Redix.command(["HSET", album_key, "coverart", "/priv/static/images/no_image.png"])
-    conn |> Redix.command(["SADD", [album_key, ":", "songs"] |> Enum.join(), path])
+    conn |> Redix.command(["SADD", songs_key, path])
 
     [
       fn(tag) -> {"compilation", tag |> Taglib.compilation()} end,
@@ -47,7 +56,7 @@ defmodule MpdClient.Util.UpdateDB do
     ] |> Enum.each(fn(func) ->
       Task.async(fn ->
         {id, key} = tag |> func.()
-        conn |> Redix.command(["HSET", path, id, key])
+        conn |> Redix.command(["HSET", path, id, key |> is_none()])
       end)
     end)
     :ok
