@@ -1,4 +1,4 @@
-defmodule MpdClient do
+defmodule Mpdart do
   @moduledoc """
   This is root supervisor module.
   """
@@ -8,8 +8,8 @@ defmodule MpdClient do
   use Application
 
   def start(_type, _args) do
-    Logger.debug "MpdClient start(_type,_args)"
+    Logger.debug "Mpdart start(_type,_args)"
 
-    Supervisor.start_link(MpdClient.Supervisor, [], name: MpdClient.Supervisor)
+    Supervisor.start_link(Mpdart.Supervisor, [], name: Mpdart.Supervisor)
   end
 end

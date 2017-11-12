@@ -1,25 +1,25 @@
-defmodule MpdClient.Supervisor do
+defmodule Mpdart.Supervisor do
   @moduledoc """
   Add document
   """
   import Logger
 
   def start_link(_name) do
-    Logger.debug "MpdClient.Supervisor start_link(_)"
+    Logger.debug "Mpdart.Supervisor start_link(_)"
     Supervisor.start_link(__MODULE__, [], name: :supervisor)
   end
 
   def init(_) do
-    Logger.debug "MpdClient.Supervisor init(_)"
+    Logger.debug "Mpdart.Supervisor init(_)"
     # routeとかを管理してるmoduleをsupervise
     children = [
       Supervisor.Spec.worker(
-        MpdClient.Router,
-        [name: MpdClient.Router]
+        Mpdart.Router,
+        [name: Mpdart.Router]
       ),
       Supervisor.Spec.worker(
-        MpdClient.Util.Supervisor,
-        [name: MpdClient.Util.Supervisor]
+        Mpdart.Util.Supervisor,
+        [name: Mpdart.Util.Supervisor]
       ),
     ]
     Supervisor.Spec.supervise(children, strategy: :one_for_one)

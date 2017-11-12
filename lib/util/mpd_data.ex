@@ -1,10 +1,10 @@
-defmodule MpdClient.MpdData do
+defmodule Mpdart.MpdData do
   @moduledoc """
   Add document
   """
   defstruct [:type, :data]
   def new(type, data) do
-    %MpdClient.MpdData {
+    %Mpdart.MpdData {
       type: type,
       data: data,
     }

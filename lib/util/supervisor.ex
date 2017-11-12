@@ -1,23 +1,23 @@
-defmodule MpdClient.Util.Supervisor do
+defmodule Mpdart.Util.Supervisor do
   @moduledoc """
   Add document
   """
   import Logger
 
   def start_link(_) do
-    Logger.debug "MpdClient.Util.Supervisor  start_link"
+    Logger.debug "Mpdart.Util.Supervisor  start_link"
     Supervisor.start_link(__MODULE__, [], name: :supervisor)
   end
 
   def init(_) do
     children = [
       Supervisor.Spec.worker(
-        MpdClient.Util.CoverArtGetter,
-        [name: MpdClient.Util.CoverArtGetter]
+        Mpdart.Util.CoverArtGetter,
+        [name: Mpdart.Util.CoverArtGetter]
       ),
       Supervisor.Spec.worker(
-        MpdClient.Util.Commands,
-        [name: MpdClient.Util.Commands]
+        Mpdart.Util.Commands,
+        [name: Mpdart.Util.Commands]
       ),
     ]
     Supervisor.Spec.supervise(children, strategy: :one_for_one)

@@ -1,8 +1,8 @@
-defmodule MpdClient.Router do
+defmodule Mpdart.Router do
   import Logger
 
   def start_link(_name) do
-    Logger.debug "MpdClient start(_type, _args)"
+    Logger.debug "Mpdart start(_type, _args)"
     dispatch = :cowboy_router.compile routes()
     {:ok, _} = :cowboy.start_http(
       :http, 100,
@@ -12,19 +12,19 @@ defmodule MpdClient.Router do
   end
 
   defp routes do
-    Logger.debug "MpdClient rotues()"
+    Logger.debug "Mpdart rotues()"
     [
       {
         :_,
         [
-          {"/", :cowboy_static, {:priv_file, :mpd_client, "static/index.html"}},
-          {"/priv/static/js/:javascript", MpdClient.Handlers.Javascript, []},
-          {"/priv/static/css/:css",       MpdClient.Handlers.Css, []},
-          {"/priv/templates/:template",   MpdClient.Handlers.Template, []},
+          {"/", :cowboy_static, {:priv_file, :mpdart, "static/index.html"}},
+          {"/priv/static/js/:javascript", Mpdart.Handlers.Javascript, []},
+          {"/priv/static/css/:css",       Mpdart.Handlers.Css, []},
+          {"/priv/templates/:template",   Mpdart.Handlers.Template, []},
           {"/priv/static/images/[...]",
-            :cowboy_static, {:priv_dir, :mpd_client, "static/images"}},
-          {"/mpd_client",                 MpdClient.Handlers.MpdClient, []},
-          {"/api/status",                 MpdClient.Handlers.Status, []},
+            :cowboy_static, {:priv_dir, :mpdart, "static/images"}},
+          {"/mpdart",                 Mpdart.Handlers.Mpdart, []},
+          {"/api/status",                 Mpdart.Handlers.Status, []},
         ]
       }
     ]

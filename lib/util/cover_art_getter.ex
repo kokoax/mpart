@@ -1,4 +1,4 @@
-defmodule MpdClient.Util.CoverArtGetter do
+defmodule Mpdart.Util.CoverArtGetter do
   @moduledoc """
   Add document
   """
@@ -7,7 +7,7 @@ defmodule MpdClient.Util.CoverArtGetter do
   use GenServer
 
   def start_link(_) do
-    Logger.debug "MpdClient.CoverArtGetter start_link"
+    Logger.debug "Mpdart.CoverArtGetter start_link"
 
     {:ok, pid} = GenServer.start_link(__MODULE__, [])
 
@@ -17,7 +17,7 @@ defmodule MpdClient.Util.CoverArtGetter do
   end
 
   def search_song(album) do
-    api_token = Application.get_env(:mpd_client, :api_token)
+    api_token = Application.get_env(:mpdart, :api_token)
     query = Regex.replace(~r(_+), album, " ")
     url = "http://ws.audioscrobbler.com/2.0/" <>
       "?method=album.search&album='#{query}'&api_key=#{api_token}&format=json"
