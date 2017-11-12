@@ -13,8 +13,8 @@ defmodule Mpdart.API.Mpd.Add do
 
   def handle(request, state) do
     Logger.debug fn -> "#{state}" end
-    method = :cowboy_req.method(request) |> elem(0)
-    {:ok, params, _req} = :cowboy_req.body_qs(request)
+    method = request |> :cowboy_req.method() |> elem(0)
+    {:ok, params, _req} = request |> :cowboy_req.body_qs()
 
     {:ok, reply} = :cowboy_req.reply(
       200,
