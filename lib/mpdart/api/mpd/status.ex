@@ -29,6 +29,7 @@ defmodule Mpdart.API.Mpd.Status do
   end
 
   def terminate(reason, request, state) do
+    Logger.debug fn -> "Terminate Mpdart.API.Mpd.Status" end
     Logger.debug fn -> "Terminate for reason: #{inspect(reason)}" end
     Logger.debug fn -> "Terminate after request: #{inspect(request)}" end
     Logger.debug fn -> "Ternimating with state: #{inspect(state)}" end
