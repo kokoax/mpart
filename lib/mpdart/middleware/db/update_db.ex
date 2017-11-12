@@ -27,17 +27,21 @@ defmodule Mpdart.Middleware.DB.UpdateDB do
   def is_none(str), do: str
 
   def store_data(tag, path, conn) do
-    path = ["Song:", path] |> Enum.join()
+    song_key = ["Song:", path] |> Enum.join()
 
     album = tag |> Taglib.album() |> is_none
     artist = tag |> Taglib.artist() |> is_none
     album_key = ["Album:", album, ":", artist] |> Enum.join()
     songs_key = ["Songs:", album, ":", artist] |> Enum.join()
 
-    conn |> Redix.command(["HSET", album_key, "album", album])
-    conn |> Redix.command(["HSET", path, "album", album])
-    conn |> Redix.command(["HSET", album_key, "artist", artist])
-    conn |> Redix.command(["HSET", path, "artist", artist])
+    if conn |> Redix.command!(["EXISTS", album_key]) == 0 do
+      conn |> Redix.command(["HSET", album_key, "album", album])
+      conn |> Redix.command(["HSET", album_key, "artist", artist])
+      conn |> Redix.command(["HSET", album_key, "albumdir", path |> Path.dirname])
+    end
+
+    conn |> Redix.command(["HSET", song_key, "artist", artist])
+    conn |> Redix.command(["HSET", song_key, "album", album])
 
     conn |> Redix.command(["HSET", album_key, "coverart", "/priv/static/images/no_image.png"])
     conn |> Redix.command(["SADD", songs_key, path])
