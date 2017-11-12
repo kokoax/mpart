@@ -79,6 +79,12 @@ defmodule Mpdart.Middleware.Mpd.Util do
     {:reply, res, []}
   end
 
+  def handle_call({:add, query}, _from, _) do
+    res = Query.add(query, mpd_sock())
+    Logger.debug fn -> "Commnad add #{query}" end
+    {:reply, res, []}
+  end
+
   # 以下は、既存のMPDコマンドをラップして使いやすかなぁみたいなのの実装
   def handle_call({:list_all_file}, _from, _) do
     Logger.debug fn -> "Commnad list all file" end

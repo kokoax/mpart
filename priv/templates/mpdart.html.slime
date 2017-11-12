@@ -11,6 +11,8 @@ html
     script src="//cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/js/uikit.min.js"
     script src="//cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/js/uikit-icons.min.js"
 
+    script src="http://localhost:4000/priv/static/js/mpd_query.js"
+
     title = site_title
 
   body
@@ -27,7 +29,7 @@ html
                 div class="uk-media-left"
                   img.album-img src="/priv/static/images/no_image.png" width="150px" height="150px"
                 div
-                  div class=""
+                  div id="#{Redix.command!(conn, ["HGET", aname, "albumdir"])}" class=""
                     h3 class="uk-card-title" = Redix.command!(conn, ["HGET", aname, "album"])
                     p class="uk-card-title" = Redix.command!(conn, ["HGET", aname, "artist"])
             / アルバムに対応する曲などの情報
@@ -39,5 +41,5 @@ html
                     / h3 class="uk-card-title uk-text-left" = info |> Enum.filter(&(&1.type == "Album")) |> Enum.at(0) |> MpdClient.MpdData.get
                     ul.uk-list.uk-list-divider
                       = Redix.command!(conn, ["SMEMBERS", Regex.replace(~r"^Album:", aname, "Songs:")]) |> Enum.map fn key ->
-                        li id="#{[aname, "/", key] |> Enum.join}" = Redix.command!(conn, ["HGET", key, "title"])
+                        li onClick="mpd_add(this)" id="#{Regex.replace(~r"^Song:", key, "")}" = Redix.command!(conn, ["HGET", key, "title"])
 
