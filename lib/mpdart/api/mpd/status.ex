@@ -5,7 +5,7 @@ defmodule Mpdart.API.Mpd.Status do
 
   import Logger
 
-  alias Mpdart.MpdData
+  alias Mpdart.Middleware.Mpd.MpdData
 
   def init(_type, req, []) do
     {:ok, req, :no_state}
