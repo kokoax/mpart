@@ -1,17 +1,17 @@
-defmodule MpdClient.AlbumData do
+defmodule Mpdart.Middleware.Mpd.AlbumData do
   @moduledoc """
   The module is struct of album data from command of MPD.
   """
   defstruct [:songs, :album, :albumartist, :dirname, :image]
   import Logger
 
-  alias MpdClient.Util.Commands
-  alias MpdClient.MpdData
-  alias MpdClient.SongData
-  alias MpdClient.AlbumData
+  alias Mpdart.Middleware.Mpd.Commands
+  alias Mpdart.Middleware.Mpd.MpdData
+  alias Mpdart.Middleware.Mpd.SongData
+  alias Mpdart.Middleware.Mpd.AlbumData
 
   def from_lsinfo(lsinfo) do
-    Logger.debug "MpdClient.AlbumData from_lsinfo"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData from_lsinfo" end
     %AlbumData {
       songs: lsinfo |> get_songs(),
       album: lsinfo |> get_album(),
@@ -22,7 +22,7 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_title(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_title"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_title" end
     lsinfo
     |> Enum.filter(&(&1.type == "Title"))
     |> case do
@@ -32,7 +32,7 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_file(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_file"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_file" end
     lsinfo
     |> Enum.filter(&(&1.type == "file"))
     |> case do
@@ -42,7 +42,7 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_time(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_time"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_time" end
     lsinfo
     |> Enum.filter(&(&1.type == "Time"))
     |> case do
@@ -52,7 +52,7 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_duration(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_duration"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_duration" end
     lsinfo
     |> Enum.filter(&(&1.type == "duration"))
     |> case do
@@ -70,7 +70,7 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_songs(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_songs"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_songs" end
     lsinfo
     |> get_file
     |> Enum.map(fn(file) ->
@@ -89,7 +89,7 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_album(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_album"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_album" end
     lsinfo
     |> Enum.filter(&(&1.type == "Album"))
     |> Enum.uniq
@@ -97,7 +97,7 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_albumartist(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_albumartist"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_albumartist" end
     lsinfo |> Enum.filter(&(&1.type == "AlbumArtist"))
     |> case do
       [] ->
@@ -118,7 +118,7 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_dirname(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_dirname"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_dirname" end
     lsinfo
     |> Enum.filter(&(&1.type == "file"))
     |> Enum.at(0)
@@ -128,19 +128,19 @@ defmodule MpdClient.AlbumData do
   end
 
   defp get_image(lsinfo) do
-    Logger.debug "MpdClient.AlbumData get_image"
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.AlbumData get_image" end
     "/priv/static/images/cat.png"
   end
 end
 
-defmodule MpdClient.SongData do
+defmodule Mpdart.Middleware.Mpd.SongData do
   @moduledoc """
   The module is struct of specific music data.
   """
 
   defstruct [:title, :file, :time, :duration]
 
-  alias MpdClient.SongData
+  alias Mpdart.Middleware.Mpd.SongData
 
   def new(title, file, time, duration) do
     %SongData {

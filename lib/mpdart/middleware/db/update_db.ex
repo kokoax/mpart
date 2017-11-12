@@ -1,4 +1,4 @@
-defmodule MpdClient.Util.UpdateDB do
+defmodule Mpdart.Middleware.DB.UpdateDB do
   @moduledoc """
   The module update music data on Redis, from music directory.
   """
@@ -6,8 +6,10 @@ defmodule MpdClient.Util.UpdateDB do
   import Logger
 
   def update_db do
-    host = Application.get_env(:mpd_client, :redis_host)
-    port = Application.get_env(:mpd_client, :redis_port)
+    Logger.debug fn -> "Mpdart.Middleware.DB.UpdateDB update_db" end
+
+    host = Application.get_env(:mpdart, :redis_host)
+    port = Application.get_env(:mpdart, :redis_port)
     {:ok, conn} = Redix.start_link(host: host, port: port)
 
     :util
@@ -15,7 +17,7 @@ defmodule MpdClient.Util.UpdateDB do
     |> Enum.filter(&(&1.type == "file"))
     |> Enum.each(fn(path) ->
       {:ok, t} =
-        (Application.get_env(:mpd_client, :musicdir) <> path.data)
+        (Application.get_env(:mpdart, :musicdir) <> path.data)
         |> Taglib.new()
       t |> store_data(path.data, conn)
     end)

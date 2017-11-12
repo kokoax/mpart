@@ -1,11 +1,11 @@
-defmodule MpdClient.Handlers.Status do
+defmodule Mpdart.API.Mpd.Status do
   @moduledoc """
   Add document
   """
 
   import Logger
 
-  alias MpdClient.MpdData
+  alias Mpdart.MpdData
 
   def init(_type, req, []) do
     {:ok, req, :no_state}
@@ -23,9 +23,9 @@ defmodule MpdClient.Handlers.Status do
   end
 
   def generate_body do
-    Logger.debug "generate_body from MPD's status"
+    Logger.debug fn -> "generate_body from MPD's status" end
 
-    :mpd_client_util |> GenServer.call({:status}) |> MpdData.to_json
+    :util |> GenServer.call({:status}) |> MpdData.to_json
   end
 
   def terminate(reason, request, state) do

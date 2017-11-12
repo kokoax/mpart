@@ -1,10 +1,10 @@
-defmodule MpdClient.Handlers.MpdClient do
+defmodule Mpdart.Handlers.Mpdart do
   @moduledoc """
   Add document
   """
   import Logger
 
-  alias MpdClient.AlbumData
+  alias Mpdart.AlbumData
 
   def init(_type, req, []) do
     {:ok, req, :no_state}
@@ -22,10 +22,10 @@ defmodule MpdClient.Handlers.MpdClient do
   end
 
   def generate_body do
-    Logger.debug fn -> "generate_body from " <> System.cwd! <> "/priv/templates/mpd_client.html.slime" end
-    {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpd_client.html.slime")
-    host = Application.get_env(:mpd_client, :redis_host)
-    port = Application.get_env(:mpd_client, :redis_port)
+    Logger.debug fn -> "generate_body from " <> System.cwd! <> "/priv/templates/mpdart.html.slime" end
+    {:ok, body} = File.read(System.cwd! <> "/priv/templates/mpdart.html.slime")
+    host = Application.get_env(:mpdart, :redis_host)
+    port = Application.get_env(:mpdart, :redis_port)
     {:ok, conn} = Redix.start_link(host: host, port: port)
 
     albumnames = Redix.command!(conn, ["KEYS", "Album:*"])
@@ -34,6 +34,7 @@ defmodule MpdClient.Handlers.MpdClient do
   end
 
   def terminate(reason, request, state) do
+    Logger.debug fn -> "Terminate Mpdart.Handlers.Mpdart" end
     Logger.debug fn -> "Terminate for reason: #{inspect(reason)}" end
     Logger.debug fn -> "Terminate after request: #{inspect(request)}" end
     Logger.debug fn -> "Ternimating with state: #{inspect(state)}" end

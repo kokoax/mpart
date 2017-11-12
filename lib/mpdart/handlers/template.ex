@@ -1,4 +1,4 @@
-defmodule MpdClient.Handlers.Template do
+defmodule Mpdart.Handlers.Template do
   @moduledoc """
   Add document
   """

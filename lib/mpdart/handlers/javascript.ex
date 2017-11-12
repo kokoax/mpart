@@ -1,4 +1,4 @@
-defmodule MpdClient.Handlers.Javascript do
+defmodule Mpdart.Handlers.Javascript do
   @moduledoc """
   This module is javascript handler from /priv/static/js/:javascript
   """
@@ -30,7 +30,7 @@ defmodule MpdClient.Handlers.Javascript do
   end
 
   def terminate(reason, request, state) do
-    Logger.debug "terminate MpdClient.Handlers.Javascript"
+    Logger.debug fn -> "Terminate Mpdart.Handlers.Javascript" end
     Logger.debug fn -> "Terminate for reason: #{inspect(reason)}" end
     Logger.debug fn -> "Terminate after request: #{inspect(request)}" end
     Logger.debug fn -> "Ternimating with state: #{inspect(state)}" end

@@ -1,10 +1,13 @@
-defmodule MpdClient.MpdData do
+defmodule Mpdart.Middleware.Mpd.MpdData do
   @moduledoc """
   Add document
   """
   defstruct [:type, :data]
+
+  alias Mpdart.Middleware.Mpd.MpdData
+
   def new(type, data) do
-    %MpdClient.MpdData {
+    %MpdData {
       type: type,
       data: data,
     }

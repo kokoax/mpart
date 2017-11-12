@@ -1,9 +1,9 @@
-defmodule MpdClient.Mixfile do
+defmodule Mpdart.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :mpd_client,
+      app: :mpdart,
       version: "0.1.0",
       elixir: "~> 1.5.2",
       build_embedded: Mix.env == :prod,
@@ -17,7 +17,7 @@ defmodule MpdClient.Mixfile do
   def application do
     [
       extra_applications: [:logger, :cowboy],
-      mod: {MpdClient, []}
+      mod: {Mpdart, []}
     ]
   end
 

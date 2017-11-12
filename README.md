@@ -1,10 +1,10 @@
-# MpdClient
+# Mpdart
 [![Travis](https://api.travis-ci.org/kokoax/mpdart.svg)](https://travis-ci.org/kokoax/mpdart)
 
 Must write
 ``` config/config.exs
 use Mix.Config
-config :mpd_client,
+config :mpdart,
   api_token: "Last.fm API Token",
   musicdir: "/path/to/your/Musicdir",
   redis_host: "localhost",

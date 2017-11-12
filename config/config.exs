@@ -1,6 +1,6 @@
 use Mix.Config
 
-config :mpd_client,
+config :mpdart,
   api_token: "Last.fm API Token",
   musicdir: "/home/kokoax/Music/",
   redis_host: "localhost",
