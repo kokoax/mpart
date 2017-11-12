@@ -1,10 +1,10 @@
-defmodule Mpdart.Middleware.Mpd.Supervisor do
+defmodule Mpdart.Middleware.Supervisor do
   @moduledoc """
   Add document
   """
   import Logger
 
-  alias Mpdart.Middleware.Mpd.CoverArtGetter
+  alias Mpdart.Middleware.DB.CoverArtGetter
   alias Mpdart.Middleware.Mpd.Util
 
   def start_link(_) do
