@@ -30,7 +30,7 @@ defmodule Mpdart.Handlers.Css do
   end
 
   def terminate(reason, request, state) do
-    Logger.debug "terminate Mpdart.Handlers.Css"
+    Logger.debug fn -> "Terminate Mpdart.Handlers.Css" end
     Logger.debug fn -> "Terminate for reason: #{inspect(reason)}" end
     Logger.debug fn -> "Terminate after request: #{inspect(request)}" end
     Logger.debug fn -> "Ternimating with state: #{inspect(state)}" end

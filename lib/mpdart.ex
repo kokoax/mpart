@@ -8,7 +8,7 @@ defmodule Mpdart do
   use Application
 
   def start(_type, _args) do
-    Logger.debug "Mpdart start(_type,_args)"
+    Logger.debug fn -> "Mpdart start" end
 
     Supervisor.start_link(Mpdart.Supervisor, [], name: Mpdart.Supervisor)
   end

@@ -1,11 +1,11 @@
-defmodule Mpdart.Util.Query do
+defmodule Mpdart.Middleware.Mpd.Query do
   @moduledoc """
   Add document
   """
   import Logger
 
-  alias Mpdart.MpdData
-  alias Mpdart.Util.Query
+  alias Mpdart.Middleware.Mpd.MpdData
+  alias Mpdart.Middleware.Mpd.Query
 
   def to_struct(data) do
     ~r(\n)

@@ -1,4 +1,4 @@
-defmodule Mpdart.Util.CoverArtGetter do
+defmodule Mpdart.Middleware.DB.CoverArtGetter do
   @moduledoc """
   Add document
   """
@@ -7,7 +7,7 @@ defmodule Mpdart.Util.CoverArtGetter do
   use GenServer
 
   def start_link(_) do
-    Logger.debug "Mpdart.CoverArtGetter start_link"
+    Logger.debug fn -> "Mpdart.Middleware.DB.CoverArtGetter start_link" end
 
     {:ok, pid} = GenServer.start_link(__MODULE__, [])
 

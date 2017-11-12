@@ -2,7 +2,7 @@ defmodule Mpdart.Router do
   import Logger
 
   def start_link(_name) do
-    Logger.debug "Mpdart start(_type, _args)"
+    Logger.debug fn -> "Mpdart.Router start" end
     dispatch = :cowboy_router.compile routes()
     {:ok, _} = :cowboy.start_http(
       :http, 100,
@@ -12,7 +12,7 @@ defmodule Mpdart.Router do
   end
 
   defp routes do
-    Logger.debug "Mpdart rotues()"
+    Logger.debug fn -> "Mpdart.Router rotues" end
     [
       {
         :_,
@@ -24,7 +24,7 @@ defmodule Mpdart.Router do
           {"/priv/static/images/[...]",
             :cowboy_static, {:priv_dir, :mpdart, "static/images"}},
           {"/mpdart",                 Mpdart.Handlers.Mpdart, []},
-          {"/api/status",                 Mpdart.Handlers.Status, []},
+          {"/api/mpd/status",                 Mpdart.API.Mpd.Status, []},
         ]
       }
     ]

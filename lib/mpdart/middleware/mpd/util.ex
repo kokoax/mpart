@@ -1,4 +1,4 @@
-defmodule Mpdart.Util.Commands do
+defmodule Mpdart.Middleware.Mpd.Util do
   @moduledoc """
   Add document
   """
@@ -7,10 +7,10 @@ defmodule Mpdart.Util.Commands do
 
   use GenServer
 
-  alias Mpdart.Util.Query
+  alias Mpdart.Middleware.Mpd.Query
 
   def start_link(_) do
-    Logger.debug fn -> "start_link" end
+    Logger.debug fn -> "Mpdart.Middleware.Mpd.Util start" end
 
     {:ok, pid} = GenServer.start_link(__MODULE__, [])
 

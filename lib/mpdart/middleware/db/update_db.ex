@@ -1,4 +1,4 @@
-defmodule Mpdart.Util.UpdateDB do
+defmodule Mpdart.Middleware.DB.UpdateDB do
   @moduledoc """
   The module update music data on Redis, from music directory.
   """
@@ -6,6 +6,8 @@ defmodule Mpdart.Util.UpdateDB do
   import Logger
 
   def update_db do
+    Logger.debug fn -> "Mpdart.Middleware.DB.UpdateDB update_db" end
+
     host = Application.get_env(:mpdart, :redis_host)
     port = Application.get_env(:mpdart, :redis_port)
     {:ok, conn} = Redix.start_link(host: host, port: port)

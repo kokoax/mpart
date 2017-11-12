@@ -4,21 +4,24 @@ defmodule Mpdart.Supervisor do
   """
   import Logger
 
+  alias Mpdart.Router
+  alias Mpdart.Middleware.Mpd
+
   def start_link(_name) do
-    Logger.debug "Mpdart.Supervisor start_link(_)"
+    Logger.debug fn -> "Mpdart.Supervisor start_link" end
     Supervisor.start_link(__MODULE__, [], name: :supervisor)
   end
 
   def init(_) do
-    Logger.debug "Mpdart.Supervisor init(_)"
+    Logger.debug fn -> "Mpdart.Supervisor init" end
     # routeとかを管理してるmoduleをsupervise
     children = [
       Supervisor.Spec.worker(
-        Mpdart.Router,
-        [name: Mpdart.Router]
+        Router,
+        [name: Router]
       ),
       Supervisor.Spec.worker(
-        Mpdart.Util.Supervisor,
+        Mpd.Supervisor,
         [name: Mpdart.Util.Supervisor]
       ),
     ]
