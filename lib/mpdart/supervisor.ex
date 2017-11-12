@@ -5,7 +5,7 @@ defmodule Mpdart.Supervisor do
   import Logger
 
   alias Mpdart.Router
-  alias Mpdart.Middleware.Mpd
+  alias Mpdart.Middleware
 
   def start_link(_name) do
     Logger.debug fn -> "Mpdart.Supervisor start_link" end
@@ -21,8 +21,8 @@ defmodule Mpdart.Supervisor do
         [name: Router]
       ),
       Supervisor.Spec.worker(
-        Mpd.Supervisor,
-        [name: Mpdart.Util.Supervisor]
+        Middleware.Supervisor,
+        [name: Mpdart.Middleware.Supervisor]
       ),
     ]
     Supervisor.Spec.supervise(children, strategy: :one_for_one)
