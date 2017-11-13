@@ -14,6 +14,8 @@ before_script:
   - apt-get update
   - apt-get install gcc-7 g++-7
 
+  - gcc --version
+
   - docker pull redis
   - docker run --name redis -d -p 6379:6379 redis:latest
 
