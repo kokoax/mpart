@@ -11,6 +11,8 @@ before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libtag1-dev build-essential
 
+  - g++ --version
+
   - docker pull redis
   - docker run --name redis -d -p 6379:6379 redis:latest
 
