@@ -10,9 +10,7 @@ before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libtag1-dev build-essential
 
-  - add-apt-repository ppa:jonathonf/gcc-7.1
-  - apt-get update
-  - apt-get install gcc-7 g++-7
+  - apt-get -qq install gcc-6 g++-6
 
   - gcc --version
 
