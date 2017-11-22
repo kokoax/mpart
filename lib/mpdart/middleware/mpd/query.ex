@@ -63,6 +63,10 @@ defmodule Mpdart.Middleware.Mpd.Query do
     cmd_do(~s(find "#{type}" "#{query}" \n), sock)
   end
 
+  def add(query, sock) do
+    cmd_do(~s(add "#{query}" \n), sock)
+  end
+
   # 以下、MPDコマンド以外の作成したコマンド
 
   # 音楽ファイルの入っているディレクトリは全てアルバムであると仮定して

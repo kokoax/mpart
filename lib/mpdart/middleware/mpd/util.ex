@@ -74,8 +74,14 @@ defmodule Mpdart.Middleware.Mpd.Util do
   end
 
   def handle_call({:find, type, query}, _from, _) do
-    res = Query.find(type, query, mpd_sock())
     Logger.debug fn -> "Commnad find #{type} #{query}" end
+    res = Query.find(type, query, mpd_sock())
+    {:reply, res, []}
+  end
+
+  def handle_call({:add, query}, _from, _) do
+    Logger.debug fn -> "Commnad add #{query}" end
+    res = Query.add(query, mpd_sock())
     {:reply, res, []}
   end
 
