@@ -19,4 +19,5 @@ jobs:
       - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix local.rebar
       - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix deps.get
       - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix deps.compile
-      - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix tes
+      - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix credo -a
+      - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix test
