@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: elixir:1.5.2
+      # - image: elixir:1.5.2
       - image: gcc:7.2.0
 
     working_direcotry: ~/repo
@@ -10,6 +10,14 @@ jobs:
     steps:
       - checkout
 
+      - run: cd ~
+      - run: apt-get install -y erlang libtag1-dev curl
+      - run: curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
+      - run: source "$HOME/.kiex/scripts/kiex"
+      - run: kiex install 1.5.2
+      - run: source "$HOME/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env"
+
+      - run: cd ~/repo
       - run: mix local.hex --force
       - run: mix local.rebar
       - run: mix deps.get
