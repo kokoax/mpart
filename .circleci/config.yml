@@ -9,14 +9,14 @@ jobs:
 
     steps:
       - checkout
-
       - run: cd ~
+
       - run: apt-get update
       - run: apt-get install -y erlang libtag1-dev curl
       - run: curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
-      - run: source "$HOME/.kiex/scripts/kiex"
+      - run: source "~/.kiex/scripts/kiex"
       - run: kiex install 1.5.2
-      - run: source "$HOME/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env"
+      - run: source "~/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env"
 
       - run: cd ~/repo
       - run: mix local.hex --force
