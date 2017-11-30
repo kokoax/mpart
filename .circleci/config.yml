@@ -17,6 +17,7 @@ jobs:
       - run: apt-get update
       - run: apt-get install -y erlang libtag1-dev curl
       - run: curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
+      - run: ls -la /root
       - run: ls -la ~
       - run: ls -la $HOME
       - run: ls -la $HOME/.kiex
