@@ -14,10 +14,10 @@ jobs:
       - run: curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
       - run: source "$HOME/.kiex/scripts/kiex" && kiex install 1.5.2
 
-      - run: source "$HOME/.kiex/elixirs/elixir-1.5.2.env" &&
-        mix local.hex --force &&
-        mix local.rebar &&
-        mix deps.get &&
-        mix deps.compile &&
-        mix credo -a &&
+      - run: source "$HOME/.kiex/elixirs/elixir-1.5.2.env" && \
+        mix local.hex --force && \
+        mix local.rebar && \
+        mix deps.get && \
+        mix deps.compile && \
+        mix credo -a && \
         mix test
