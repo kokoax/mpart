@@ -15,8 +15,8 @@ jobs:
       - run: curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
       - run: source "/root/.kiex/scripts/kiex" && kiex install 1.5.2
 
-      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix local.hex --force
-      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix local.rebar
-      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix deps.get
-      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix deps.compile
-      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix tes
+      - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix local.hex --force
+      - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix local.rebar
+      - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix deps.get
+      - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix deps.compile
+      - run: source "/root/.kiex/elixirs/elixir-1.5.2.env" && mix tes
