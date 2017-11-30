@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    environment:
+        REDIS_URL: redis://localhost:6379
+
+    test:
+      pre:
+        - sudo service redis-server start
+
+    docker:
+      - image: circleci/elixir:1.5
+      - image: circleci/redis:1.5
+
+    working_direcotry: ~/repo
+
+    steps:
+      - checkout
+
+      - run: mix deps.get
+      - run: mix deps.compile
+      - run: mix credo -a
+      - run: mix test
+        machine:
+
