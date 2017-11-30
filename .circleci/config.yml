@@ -13,12 +13,10 @@ jobs:
       - run: apt-get update
       - run: apt-get install -y erlang libtag1-dev curl
       - run: curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
-      - run: source "/root/.kiex/scripts/kiex"
-      - run: kiex install 1.5.2
-      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env"
+      - run: source "/root/.kiex/scripts/kiex" && kiex install 1.5.2
 
-      - run: mix local.hex --force
-      - run: mix local.rebar
-      - run: mix deps.get
-      - run: mix deps.compile
-      - run: mix tes
+      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix local.hex --force
+      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix local.rebar
+      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix deps.get
+      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix deps.compile
+      - run: source "/root/.kiex/scripts/kiex/elixirs/elixir-1.5.2.env" && mix tes
