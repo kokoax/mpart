@@ -1,7 +1,6 @@
 language: elixir
 elixir: 1.5.2
-otp_release: 18.3
-compiler: clang
+otp_release: 20
 sudo: required
 
 scripts:
